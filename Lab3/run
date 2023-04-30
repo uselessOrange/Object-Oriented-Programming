@@ -1,0 +1,8 @@
+#!/bin/bash
+echo 'Name of cpp file>>'
+read name
+g++ $name
+echo '>>>'
+./a.out
+echo '>>>'
+rm a.out
