@@ -52,9 +52,12 @@ for (int i = 0; i < 5; i++)
         if (code != 1234)
         {
 //Display products
+            void loadCost(float*);
+            float cost[5];
+            loadCost(cost);
             for (int i = 0; i < 5; i++)
             {
-                std::cout << "\nProduct " << i << ", in stock: " << quant[i] << std::endl;
+                std::cout << "\nProduct " << i << ", in stock: " << quant[i] <<" Price: "<<cost[i]<< std::endl;
             }
 
             
@@ -95,32 +98,13 @@ void execOrder(int order[2], int* quant)
         std::cout << "The quantity chosen exeeds the number in stock\n";
     else
     {
-
-        std::ifstream file;
-        std::string char_array;
-
-//load cost.txt
-        file.open( "cost.txt", std::ios::in | std::ios::out );
-
-        std::getline(file, char_array); 
-        file.close();
-
-        int length = char_array.length();
-
+        void loadCost(float*);
         float cost[5];
-        for (int i = 0; i < length; i++)
-        {
-
-            cost[i] = static_cast<float>(char_array[i]) - '0';
-
-    }
-
-        
+        loadCost(cost);
         transaction(cost,order);
-
         std::cout << "\nDispenced Product " << order[0] << " in amount " << order[1] << "\n";
         quant[order[0]] -= order[1];
-    }
+}
 }
 
 void transaction(float* cost,int order[2])
@@ -129,7 +113,7 @@ void transaction(float* cost,int order[2])
     float paid;
     float toGiveBack;
     int moneyCheck=0;
-
+    std::cout<<order[0]<<order[1]<<std::endl;
     OrderCost=order[1]*cost[order[0]];
 
     while (moneyCheck==0)
@@ -137,7 +121,7 @@ void transaction(float* cost,int order[2])
         std::cout<<"Your order costs "<<OrderCost<<std::endl
         <<"Enter money>>"<<std::endl;
         std::cin>>paid;
-        if (paid<cost[order[0]])
+        if (paid<order[1]*cost[order[0]])
             std::cout<<"Not enough credit"<<std::endl;
         else
             moneyCheck=1;   
@@ -146,4 +130,27 @@ void transaction(float* cost,int order[2])
     
     toGiveBack=paid-OrderCost;
     std::cout<<"Your change>>"<<toGiveBack<<std::endl;
+}
+
+void loadCost(float* cost){
+    //load cost.txt
+
+        std::ifstream file;
+        std::string char_array;
+
+        file.open( "cost.txt", std::ios::in | std::ios::out );
+
+        std::getline(file, char_array); 
+        file.close();
+
+        int length = char_array.length();
+
+    
+        for (int i = 0; i < length; i++)
+        {
+
+            cost[i] = static_cast<float>(char_array[i]) - '0';
+
+    }
+
 }
