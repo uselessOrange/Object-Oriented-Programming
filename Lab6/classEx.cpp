@@ -5,7 +5,7 @@ class processor {
     int n_core;
 
     public:
-    int proc_param(int thr, int cores) {
+    void proc_param(int thr, int cores) {
         n_thread = thr;
         n_core = cores;
 }
@@ -14,12 +14,13 @@ class processor {
 };
 
 
-void procesor::disp_param() {
+void processor::disp_param() {
+
     std::cout << "\nProcessor has " << n_thread << " threads";
     std::cout << "\nProcesor has " << n_core << " cores";
 }
 
-main() {
+int main() {
 processor i5, i7;
 std::cout << "Program stores and displays the processors "
 << "data\n";
