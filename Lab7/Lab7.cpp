@@ -61,7 +61,7 @@ int main() {
             break;
         }
     } while (choice != 3);
-    std::cout<<"hello"<<std::endl;
+   
     return 0;
 }
 
