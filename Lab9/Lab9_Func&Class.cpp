@@ -1,6 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include<cstdlib>
+#include "my_rand.cpp"
+#include "my_rand_ex.hpp"
 
 using namespace std;
 
@@ -16,16 +20,24 @@ public:
     int Agility;
     int Luck;
 
+    RPGCharacter() :
+        Name("name"), Strength(1), Perception(1), 
+        Endurance(1), Charisma(1), Intelligence(1), Agility(1), Luck(1),
+        Perk("perk") {}
+
     RPGCharacter(string name, int strength, int perception,
          int endurance, int charisma, int intelligence, int agility, int luck,string perk) :
         Name(name), Strength(strength), Perception(perception), 
         Endurance(endurance), Charisma(charisma), Intelligence(intelligence), Agility(agility), Luck(luck),
         Perk(perk) {}
+    
 
     // Friend class declaration
     friend class FriendClass;
 
 };
+
+
 
 class FriendClass {
   public:
@@ -41,21 +53,21 @@ class FriendClass {
         obj.Luck = luck;
         obj.Perk = perk;
     }
-    friend class Chem_Addict;
+
     friend class Brotherhood_of_Steel_Knight;
     friend class Enclave_Energy_Riffleman;
     friend class Raider_Scout;
 };
 
-class Chem_Addict {
+class Chem_Addict : public FriendClass {
     public:
     void chooseClass(RPGCharacter& obj,string name){
         FriendClass friendClass;
-        friendClass.setValue(obj,name,obj.Strength+1,4,3,4,4,4,4,"Chem Addict");
+        friendClass.setValue(obj,name,4,4,3,4,4,4,4,"Chem Addict");
     }
 };
 
-class Brotherhood_of_Steel_Knight {
+class Brotherhood_of_Steel_Knight : FriendClass{
     public:
     void chooseClass(RPGCharacter& obj,string name){
         FriendClass friendClass;
@@ -79,48 +91,10 @@ class Raider_Scout {
     }
 };
 
-void createNewCharacter();
-RPGCharacter loadCharacter();
+class childclass : public Chem_Addict,Brotherhood_of_Steel_Knight{
 
-int main() {
-    int choice;
-    std::ifstream inputFile("falloutBoy.txt"); // Replace "example.txt" with the path to your text file
-    if (!inputFile.is_open()) {
-        std::cout << "Failed to open the file." << std::endl;
-        return 1;
-    }
-    std::string line;
-    while (std::getline(inputFile, line)) {
-        std::cout << line << std::endl;
-    }
-    std::cout << "hello" << std::endl;
-    inputFile.close();
-    
-    do {
-        cout << "Select an option:" << endl;
-        cout << "1. Create new character" << endl;
-        cout << "2. Load character" << endl;
-        cout << "3. Quit" << endl;
-        cin >> choice;
-        cin.ignore();
-        switch (choice) {
-        case 1:
-            createNewCharacter();
-            break;
-        case 2:
-            loadCharacter();
+};
 
-            break;
-        case 3:
-            cout << "Goodbye!" << endl;
-            break;
-        default:
-            cout << "Invalid choice." << endl;
-            break;
-        }
-    } while (choice != 3);
-    return 0;
-}
 
 void createNewCharacter() {
     string Name;
@@ -218,6 +192,117 @@ int Perception,int Endurance,int Charisma,int Intelligence,int Agility,int Luck)
     }
     
 }
+/*
+RPGCharacter createNewMonster(int monster_num) {
+
+    string Name=to_string(monster_num);
+    string Perk="none";
+    int Strength=1;
+    int Perception=1;
+    int Endurance=1;
+    int Charisma=1;
+    int Intelligence=1;
+    int Agility=1;
+    int Luck=1;
+void saveCharacter(RPGCharacter character,string Name,string Perk,int Strength,
+int Perception,int Endurance,int Charisma,int Intelligence,int Agility,int Luck);
+
+
+RPGCharacter character(Name,Strength,Perception,Endurance,Charisma,Intelligence,Agility,Luck,Perk);
+            
+cout << "New character created!" << endl;
+saveCharacter(character,Name,Perk,Strength,
+Perception,Endurance,Charisma,Intelligence,Agility,Luck);
+    
+
+saveCharacter(character,character.Name,character.Perk,character.Strength,
+character.Perception,character.Endurance,character.Charisma,character.Intelligence,
+character.Agility,character.Luck);
+    return character;
+}
+
+
+void createNewMonster(string monsterName) {
+    string Name=monsterName;
+    string Perk="none";
+
+
+    int length=7;
+    int randomNumberVector[length];
+    my_rand(randomNumberVector,length,0,9);
+
+    int Strength=randomNumberVector[0];
+    int Perception=randomNumberVector[1];
+    int Endurance=randomNumberVector[2];
+    int Charisma=randomNumberVector[3];
+    int Intelligence=randomNumberVector[4];
+    int Agility=randomNumberVector[5];
+    int Luck=randomNumberVector[6];
+
+    void saveCharacter(RPGCharacter character,string Name,string Perk,int Strength,
+    int Perception,int Endurance,int Charisma,int Intelligence,int Agility,int Luck);
+
+
+    RPGCharacter character(Name,Strength,Perception,Endurance,Charisma,Intelligence,Agility,Luck,Perk);
+            
+    cout << "New character created!" << endl;
+    //saveCharacter(character,Name,Perk,Strength,
+    //Perception,Endurance,Charisma,Intelligence,Agility,Luck);
+    
+
+    saveCharacter(character,character.Name,character.Perk,character.Strength,
+    character.Perception,character.Endurance,character.Charisma,character.Intelligence,
+    character.Agility,character.Luck);
+    
+}
+*/
+
+class Monster : public RPGCharacter{
+    public:
+        Monster()
+        : RPGCharacter("name", 1, 1, 1, 1, 1, 1, 1, "perk") {
+
+        }; 
+        void createNewMonster(string monsterName) {
+            string Name=monsterName;
+            string Perk="none";
+
+
+            int length=7;
+            int randomNumberVector[length];
+            my_rand(randomNumberVector,length,0,9);
+
+            int Strength=randomNumberVector[0];
+            int Perception=randomNumberVector[1];
+            int Endurance=randomNumberVector[2];
+            int Charisma=randomNumberVector[3];
+            int Intelligence=randomNumberVector[4];
+            int Agility=randomNumberVector[5];
+            int Luck=randomNumberVector[6];
+
+            void saveCharacter(RPGCharacter character,string Name,string Perk,int Strength,
+            int Perception,int Endurance,int Charisma,int Intelligence,int Agility,int Luck);
+
+
+            RPGCharacter character(Name,Strength,Perception,Endurance,Charisma,Intelligence,Agility,Luck,Perk);
+                    
+            cout << "New character created!" << endl;
+            //saveCharacter(character,Name,Perk,Strength,
+            //Perception,Endurance,Charisma,Intelligence,Agility,Luck);
+            
+
+            saveCharacter(character,character.Name,character.Perk,character.Strength,
+            character.Perception,character.Endurance,character.Charisma,character.Intelligence,
+            character.Agility,character.Luck);
+    
+}
+/*
+        Monster(RPGCharacter& obj){
+            std::cout<<obj.Name;
+        }
+*/
+};
+
 
 RPGCharacter loadCharacter() {
     string filename;
